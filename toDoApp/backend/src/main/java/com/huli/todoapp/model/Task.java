@@ -12,7 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import java.util.Date;
+import java.security.Timestamp;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -25,7 +25,7 @@ public class Task {
   private String description;
   private Boolean done;
   @Temporal(TemporalType.TIMESTAMP)
-  private Date dueDate;
+  private Timestamp dueDate;
   @ManyToOne
   @JoinColumn(name="user_id", nullable=false)
   private User user;
