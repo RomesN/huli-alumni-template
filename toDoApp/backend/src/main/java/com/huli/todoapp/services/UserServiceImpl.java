@@ -2,11 +2,13 @@ package com.huli.todoapp.services;
 
 import com.huli.todoapp.controllers.DTOs.RegistrationDTO;
 import com.huli.todoapp.exceptions.PasswordException;
+import com.huli.todoapp.exceptions.UserException;
 import com.huli.todoapp.model.User;
 import com.huli.todoapp.repository.UserRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,7 +30,7 @@ public class UserServiceImpl implements UserService {
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     Optional<User> user = userRepository.findUserByUsernameIgnoreCase(username);
     if (user.isEmpty()) {
-      throw new UsernameNotFoundException("Invalid username!");
+      throw new UsernameNotFoundException("Invalid username.");
     } else {
       return user.get();
     }
@@ -37,16 +39,23 @@ public class UserServiceImpl implements UserService {
   @Override
   public User create(RegistrationDTO registration) {
     if (!registration.getPassword().equals(registration.getPasswordRepeat())) {
-      throw new PasswordException("Passwords do not match!", HttpStatusCode.valueOf(400));
+      throw new PasswordException("Passwords do not match.", HttpStatusCode.valueOf(400));
     }
 
-    if (userRepository.findUserByUsernameIgnoreCase(registration.getUserName()).isPresent()) {
-      throw new PasswordException("Username with given username already exists!",
+    if (userRepository.findUserByUsernameIgnoreCase(registration.getUsername())
+        .isPresent()) {
+      throw new UserException("Username with given username already exists.",
+          HttpStatusCode.valueOf(409));
+    }
+
+    if (userRepository.findUserByEmail(registration.getEmail())
+        .isPresent()) {
+      throw new UserException("Username with given email already exists.",
           HttpStatusCode.valueOf(409));
     }
 
     User user =
-        new User(registration.getUserName(), passwordEncoder.encode(registration.getPassword()),
+        new User(registration.getUsername(), passwordEncoder.encode(registration.getPassword()),
             registration.getEmail(), true, true, true, true);
     return userRepository.save(user);
   }
