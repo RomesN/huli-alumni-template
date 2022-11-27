@@ -10,7 +10,7 @@ Email: romannemeth1@gmail.com
 
 ## &rarr; [Coding projects](https://github.com/green-fox-academy/definitions/tree/master/project-phase/huli/coding-projects)
 
-{project-name}: {link-to-repo}
+To-Do App: [link](https://github.com/RomesN/huli-alumni-template/tree/master/toDoApp)
 
 ## &rarr; [Interview prep](https://github.com/green-fox-academy/teaching-materials/tree/master/interview)
 
