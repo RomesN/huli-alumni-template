@@ -43,7 +43,7 @@ public class PublicController {
   @PostMapping(value = "/login")
   public ResponseEntity<String> login(@RequestBody LoginDTO login) {
     Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(login.getLogin(), login.getPassword()));
+        new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
     String token = tokenService.generateToken(authentication);
     return ResponseEntity.ok(token);
   }

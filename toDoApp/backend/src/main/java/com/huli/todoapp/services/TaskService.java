@@ -6,7 +6,11 @@ import com.huli.todoapp.model.User;
 import java.util.List;
 
 public interface TaskService  {
-  List<TaskDTO> getTasks(User user);
+  List<TaskDTO> getTasks(String username);
 
   Task createTask(TaskDTO taskDTO, User user);
+
+  Task updateToDo(TaskDTO taskDTO, String taskId, String username);
+
+  void deleteTask(String taskId, String username);
 }

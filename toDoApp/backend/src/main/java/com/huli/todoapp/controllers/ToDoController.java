@@ -9,8 +9,11 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +27,7 @@ public class ToDoController {
     this.taskService = taskService;
   }
 
-  @PostMapping("/to-do")
+  @PutMapping("/to-do")
   public ResponseEntity<String> createTask(@AuthenticationPrincipal Jwt principal, @RequestBody
   TaskDTO taskDTO) {
     try {
@@ -33,7 +36,6 @@ public class ToDoController {
       return ResponseEntity.ok("To do was saved.");
 
     } catch (ToDoException e) {
-
       return ResponseEntity.status(e.getStatusCode())
           .body(e.getMessage());
     }
@@ -42,12 +44,37 @@ public class ToDoController {
   @GetMapping("/to-do")
   public ResponseEntity<?> getTasks(@AuthenticationPrincipal Jwt principal) {
     try {
-      String username = principal.getClaimAsString("sub");
-      User user = (User) userService.loadUserByUsername(username);
-      List<TaskDTO> taskList = taskService.getTasks(user);
+      List<TaskDTO> taskList = taskService.getTasks(principal.getClaimAsString("sub"));
       return ResponseEntity.ok(taskList);
-    } catch (ToDoException e) {
 
+    } catch (ToDoException e) {
+      return ResponseEntity.status(e.getStatusCode())
+          .body(e.getMessage());
+    }
+  }
+
+  @PatchMapping("/to-do/{id}")
+  public ResponseEntity<?> updateTask(@AuthenticationPrincipal Jwt principal,
+                                      @RequestBody TaskDTO taskDTO,
+                                      @PathVariable String id) {
+    try {
+      taskService.updateToDo(taskDTO, id, principal.getClaimAsString("sub"));
+      return ResponseEntity.ok("To do with id " + id + " was updated.");
+
+    } catch (ToDoException e) {
+      return ResponseEntity.status(e.getStatusCode())
+          .body(e.getMessage());
+    }
+  }
+
+  @DeleteMapping("/to-do/{id}")
+  public ResponseEntity<?> deleteTask(@AuthenticationPrincipal Jwt principal,
+                                      @PathVariable String id) {
+    try {
+      taskService.deleteTask(id, principal.getClaimAsString("sub"));
+      return ResponseEntity.ok("To do with id " + id + " was deleted.");
+
+    } catch (ToDoException e) {
       return ResponseEntity.status(e.getStatusCode())
           .body(e.getMessage());
     }

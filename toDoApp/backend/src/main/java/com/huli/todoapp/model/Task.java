@@ -16,10 +16,12 @@ import jakarta.persistence.TemporalType;
 import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 public class Task {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,6 +47,14 @@ public class Task {
     this.dueDate = taskDTO.getDueDate();
     this.priority = taskDTO.getPriority();
     this.user = user;
+  }
+
+  public void updateFromDTO(TaskDTO taskDTO) {
+    this.name = taskDTO.getName();
+    this.description = taskDTO.getDescription();
+    this.done = taskDTO.getDone();
+    this.dueDate = taskDTO.getDueDate();
+    this.priority = taskDTO.getPriority();
   }
 }
 
