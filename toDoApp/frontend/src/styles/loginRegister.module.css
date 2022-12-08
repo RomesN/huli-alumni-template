@@ -1,0 +1,245 @@
+.formContainer {
+    background: linear-gradient(var(--charcoalShadeDarker2), var(--charcoalShadeDarker3));
+    border-radius: 1em;
+
+    padding: 3em;
+
+    box-sizing: border-box;
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.6);
+    z-index: 0;
+}
+
+/* Large devices */
+@media only screen and (min-width: 992px) {
+    .formContainer {
+        height: fit-content;
+        min-width: 30vw;
+    }
+
+    .inputContainer input,
+    .inputContainer label {
+        font-size: 16px;
+    }
+    .inputContainer .usedLabel,
+    .inputContainer input:focus ~ label,
+    .inputContainer input:active ~ label,
+    .error {
+        font-size: 13px;
+    }
+
+    .formContainer form button[type="submit"],
+    .nonMainButtonLink > button {
+        font-size: 16px;
+    }
+}
+
+/* Smaller devices */
+@media screen and (max-width: 992px) {
+    .formContainer {
+        height: fit-content;
+        min-width: 90vw;
+    }
+
+    .inputContainer input,
+    .inputContainer label {
+        font-size: 17px;
+    }
+    .inputContainer .usedLabel,
+    .inputContainer input:focus ~ label,
+    .inputContainer input:active ~ label,
+    .error {
+        font-size: 14px;
+    }
+
+    .formContainer form button[type="submit"],
+    .nonMainButtonLink > button {
+        font-size: 17px;
+    }
+}
+
+.header {
+    margin: 0 0 1.5em;
+    padding: 0;
+    color: var(--neonGreen);
+    text-align: center;
+}
+
+.inputContainer {
+    position: relative;
+}
+
+.error {
+    position: absolute;
+    color: var(--neonRed);
+    top: 3.5em;
+    left: 0;
+}
+
+.inputContainer input {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.5em;
+    color: var(--smokeyGrey);
+    margin-bottom: 3em;
+    border: none;
+    border-bottom: 1px solid var(--neonGreen);
+    outline: none;
+    background-color: transparent;
+    z-index: 2;
+}
+
+.inputContainer label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.5em;
+    color: var(--neonGreen);
+    transition: 0.5s;
+    z-index: 1;
+}
+
+.inputContainer .usedLabel {
+    top: -20px;
+    left: 0;
+    color: var(--neonGreen);
+}
+
+.inputContainer input:focus ~ label,
+.inputContainer input:active ~ label {
+    top: -20px;
+    left: 0;
+    color: var(--neonGreen);
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nonMainButtonLink > button {
+    cursor: pointer;
+    color: var(--smokeyGrey);
+    border: 1px solid var(--charcoal);
+    padding: 0.7em 0.7em;
+    background-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.nonMainButtonLink > button:hover {
+    background-color: var(--smokeyGrey);
+    color: var(--charcoal);
+    border: 1px solid var(--smokeyGrey);
+    border-radius: 5px;
+    box-shadow: 0 0 0.5em var(--smokeyGrey), 0 0 1em var(--smokeyGrey), 0 0 1.5em var(--smokeyGrey),
+        0 0 2em var(--smokeyGrey);
+}
+
+.formContainer form button[type="submit"] {
+    position: relative;
+    padding: 0.7em 0.7em;
+    color: var(--smokeyGrey);
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+
+    transition: 0.5;
+    letter-spacing: 0.1em;
+}
+
+.formContainer form button[type="submit"]:hover {
+    background-color: var(--smokeyGrey);
+    color: var(--charcoal);
+    border-radius: 5px;
+    box-shadow: 0 0 0.5em var(--smokeyGrey), 0 0 1em var(--smokeyGrey), 0 0 1.5em var(--smokeyGrey),
+        0 0 2em var(--smokeyGrey);
+}
+
+.formContainer form button[type="submit"] span {
+    position: absolute;
+    display: block;
+}
+
+.formContainer form button[type="submit"] span:nth-child(1) {
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--smokeyGrey));
+    animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+    0% {
+        left: -100%;
+    }
+    50%,
+    100% {
+        left: 100%;
+    }
+}
+
+.formContainer form button[type="submit"] span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, var(--smokeyGrey));
+    animation: btn-anim2 1s linear infinite;
+    animation-delay: 0.25s;
+}
+
+@keyframes btn-anim2 {
+    0% {
+        top: -100%;
+    }
+    50%,
+    100% {
+        top: 100%;
+    }
+}
+
+.formContainer form button[type="submit"] span:nth-child(3) {
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg, transparent, var(--smokeyGrey));
+    animation: btn-anim3 1s linear infinite;
+    animation-delay: 0.5s;
+}
+
+@keyframes btn-anim3 {
+    0% {
+        right: -100%;
+    }
+    50%,
+    100% {
+        right: 100%;
+    }
+}
+
+.formContainer form button[type="submit"] span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, var(--smokeyGrey));
+    animation: btn-anim4 1s linear infinite;
+    animation-delay: 0.75s;
+}
+
+@keyframes btn-anim4 {
+    0% {
+        bottom: -100%;
+    }
+    50%,
+    100% {
+        bottom: 100%;
+    }
+}

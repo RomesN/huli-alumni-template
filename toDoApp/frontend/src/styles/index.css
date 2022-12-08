@@ -1,0 +1,26 @@
+:root {
+    --charcoal: #3a3f47;
+    --charcoalShadeDarker: #22252a;
+    --charcoalShadeDarker2: #1e2125;
+    --charcoalShadeDarker3: #0c0e10;
+    --black: #000000;
+    --neonBlue: #182cd4;
+    --neonBlueShadeDarker: #162397;
+    --neonGreen: #c4fa6f;
+    --smokeyGrey: #eeeeee;
+    --neonRed: #ff5733;
+}
+
+body {
+    font-family: "Montserrat", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--charcoal);
+    background: linear-gradient(var(--charcoal), var(--charcoalShadeDarker));
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: hidden;
+    z-index: -1;
+}
