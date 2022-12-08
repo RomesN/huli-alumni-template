@@ -1,0 +1,8 @@
+.errorContainer {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    font-size: 18px;
+    font-weight: bolder;
+    color: var(--neonRed);
+}
