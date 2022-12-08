@@ -2,7 +2,7 @@ import React, { ErrorInfo } from "react";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "../styles/errorBoundary.module.css";
-import { Props, State } from "../types/others";
+import { Props, State } from "../shared/types/others";
 
 class ErrorBoundary extends React.Component<Props, State> {
     public state: State = {

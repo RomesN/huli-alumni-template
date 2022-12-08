@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { LoginInputs } from "../types/forms";
+import { LoginInputs } from "../shared/types/forms";
 import styles from "../styles/loginRegister.module.css";
 
 const Login = () => {
@@ -19,12 +19,12 @@ const Login = () => {
                 <div className={styles.inputContainer}>
                     <input type="text" {...register("username", { required: true })} />
                     <label className={watch("username") ? styles.usedLabel : undefined}>Username</label>
-                    {errors.username && <span className={styles.error}>This field is required</span>}
+                    {errors.username && <span className={styles.error}>the field is required</span>}
                 </div>
                 <div className={styles.inputContainer}>
                     <input type="password" {...register("password", { required: true })} />
                     <label className={watch("password") ? styles.usedLabel : undefined}>Password</label>
-                    {errors.password && <span className={styles.error}>This field is required</span>}
+                    {errors.password && <span className={styles.error}>the field is required</span>}
                 </div>
                 <div className={styles.buttonContainer}>
                     <button type="submit" value="Submit">

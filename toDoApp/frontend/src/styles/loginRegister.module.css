@@ -7,6 +7,8 @@
     box-sizing: border-box;
     box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.6);
     z-index: 0;
+
+    animation: fadeIn 1s;
 }
 
 /* Large devices */
@@ -81,7 +83,7 @@
     width: 100%;
     padding: 0.5em;
     color: var(--smokeyGrey);
-    margin-bottom: 3em;
+    margin-bottom: 4em;
     border: none;
     border-bottom: 1px solid var(--neonGreen);
     outline: none;
@@ -241,5 +243,14 @@
     50%,
     100% {
         bottom: 100%;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }

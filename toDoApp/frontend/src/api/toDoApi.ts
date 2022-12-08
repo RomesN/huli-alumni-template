@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LoginResponse } from "../types/responses";
+import { LoginResponse } from "../shared/types/responses";
 
 export const api = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_BASE_URL,

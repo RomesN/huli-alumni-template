@@ -15,12 +15,15 @@ body {
     font-family: "Montserrat", Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--charcoal);
     background: linear-gradient(var(--charcoal), var(--charcoalShadeDarker));
+    background-repeat: no-repeat;
+    background-size: cover;
     height: 100vh;
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow-y: hidden;
     z-index: -1;
 }
