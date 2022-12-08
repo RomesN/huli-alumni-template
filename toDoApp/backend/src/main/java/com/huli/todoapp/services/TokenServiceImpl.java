@@ -1,5 +1,6 @@
 package com.huli.todoapp.services;
 
+import jakarta.servlet.http.Cookie;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
@@ -25,7 +26,7 @@ public class TokenServiceImpl implements TokenService {
   }
 
   @Override
-  public String generateToken(Authentication authentication) {
+  public Cookie generateToken(Authentication authentication) {
     Instant now = Instant.now();
     String scope = authentication.getAuthorities().stream()
         .map(GrantedAuthority::getAuthority)
@@ -37,6 +38,9 @@ public class TokenServiceImpl implements TokenService {
         .subject(authentication.getName())
         .claim("scope", scope)
         .build();
-    return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    String token = this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    Cookie cookie = new Cookie("jwtToken", token);
+    cookie.setHttpOnly(true);
+    return cookie;
   }
 }
