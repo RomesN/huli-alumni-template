@@ -46,11 +46,11 @@ public class UserServiceImpl implements UserService {
           HttpStatusCode.valueOf(400));
     }
 
-    if (registration.getPassword()
+    if (!registration.getPassword()
         .matches(
-            "^.*(?=.{8,})((?=.*[!@#$%^&*()\\-_=+{};:,<.>]))(?=.*\\d)((?=.*[a-z]))((?=.*[A-Z])).*$")) {
+            "^.*(?=.{8,})((?=.*[!@#$%^&*()\\-_=+{};:,<.>]){1})(?=.*\\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$")) {
       throw new PasswordException(
-          "Password must contain at least 8 characters, one uppercase, one number and one special case character.",
+          "Password does not meet criteria.",
           HttpStatusCode.valueOf(400));
     }
 

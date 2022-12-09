@@ -6,8 +6,9 @@ function App() {
     return (
         <Routes>
             <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Register" element={<Regsiter />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Regsiter />} />
+            <Route path="/todos" element="" />
         </Routes>
     );
 }

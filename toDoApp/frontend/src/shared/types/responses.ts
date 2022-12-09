@@ -1,3 +1,5 @@
-type LoginResponse = {};
+type LoginResponseOk = {};
 
-export type { LoginResponse };
+type RegisterResponseOk = {};
+
+export type { LoginResponseOk, RegisterResponseOk };

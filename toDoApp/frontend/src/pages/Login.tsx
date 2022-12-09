@@ -1,16 +1,37 @@
+import { AxiosError, isAxiosError } from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { LoginInputs } from "../shared/types/forms";
+import { loginUser } from "../api/toDoApi";
 import styles from "../styles/loginRegister.module.css";
 
 const Login = () => {
+    const [error, setError] = useState<AxiosError | null>();
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
     } = useForm<LoginInputs>();
-    const onSubmit: SubmitHandler<LoginInputs> = (data) => console.log(data);
+    const navigate = useNavigate();
+
+    const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
+        const response = await loginUser(data.username, data.password);
+        if (isAxiosError(response)) {
+            setError(response);
+        } else {
+            navigate("/todo");
+        }
+    };
+
+    const showError = (error: AxiosError) => {
+        if (error.response?.status === 401) {
+            return <p className={styles.errorMessage}>wrong credentials</p>;
+        } else {
+            return <p className={styles.errorMessage}>{error.message}</p>;
+        }
+    };
 
     return (
         <div className={styles.formContainer}>
@@ -25,6 +46,7 @@ const Login = () => {
                     <input type="password" {...register("password", { required: true })} />
                     <label className={watch("password") ? styles.usedLabel : undefined}>Password</label>
                     {errors.password && <span className={styles.error}>the field is required</span>}
+                    {error && showError(error)}
                 </div>
                 <div className={styles.buttonContainer}>
                     <button type="submit" value="Submit">

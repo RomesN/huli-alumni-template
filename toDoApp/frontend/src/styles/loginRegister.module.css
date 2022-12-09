@@ -15,11 +15,12 @@
 @media only screen and (min-width: 992px) {
     .formContainer {
         height: fit-content;
-        min-width: 30vw;
+        min-width: 35vw;
     }
 
     .inputContainer input,
-    .inputContainer label {
+    .inputContainer label,
+    .errorMessage {
         font-size: 16px;
     }
     .inputContainer .usedLabel,
@@ -75,6 +76,7 @@
     color: var(--neonRed);
     top: 3.5em;
     left: 0;
+    animation: fadeIn 0.5s;
 }
 
 .inputContainer input {
@@ -112,6 +114,14 @@
     top: -20px;
     left: 0;
     color: var(--neonGreen);
+}
+
+.errorMessage {
+    position: absolute;
+    color: var(--neonRed);
+    top: 2.5em;
+    left: 0;
+    animation: fadeIn 0.5s;
 }
 
 .buttonContainer {

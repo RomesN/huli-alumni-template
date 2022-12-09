@@ -1,19 +1,41 @@
+import { AxiosError, isAxiosError } from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { RegisterInputs } from "../shared/types/forms";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../shared/utils/formSchema";
+import { registerUser } from "../api/toDoApi";
 import styles from "../styles/loginRegister.module.css";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const Regsiter = () => {
+    const [error, setError] = useState<AxiosError | null>();
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
     } = useForm<RegisterInputs>({ resolver: yupResolver(registerSchema) });
+    const navigate = useNavigate();
 
-    const onSubmit: SubmitHandler<RegisterInputs> = (data) => console.log(data);
+    const onSubmit: SubmitHandler<RegisterInputs> = async (data) => {
+        const response = await registerUser(data.password, data.passwordRepeat, data.username, data.passwordRepeat);
+        console.log(response);
+        if (isAxiosError(response)) {
+            setError(response);
+        } else {
+            navigate("/login");
+        }
+    };
+
+    const showError = (error: AxiosError) => {
+        if (!error.response || !error.response.data) {
+            console.log(error);
+            return <p className={styles.errorMessage}>{error.message}</p>;
+        } else {
+            return <p className={styles.errorMessage}>{error.response.data as string}</p>;
+        }
+    };
 
     return (
         <div className={styles.formContainer}>
@@ -38,8 +60,9 @@ const Regsiter = () => {
                     <input type="password" {...register("passwordRepeat", { required: true })} />
                     <label className={watch("passwordRepeat") ? styles.usedLabel : undefined}>Password repeat</label>
                     {errors.passwordRepeat && (
-                        <span className={styles.error}>password and password repate do not match.</span>
+                        <span className={styles.error}>password and password repeate do not match.</span>
                     )}
+                    {error && showError(error)}
                 </div>
                 <div className={styles.buttonContainer}>
                     <button type="submit" value="Submit">
