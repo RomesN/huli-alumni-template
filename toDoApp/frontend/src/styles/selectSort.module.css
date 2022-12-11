@@ -2,9 +2,11 @@
     position: relative;
     text-transform: capitalize;
     width: 8em;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     display: flex;
-    border-radius: 5px;
-    outline: none;
     font-weight: bold;
     cursor: pointer;
     color: var(--neonGreen);
@@ -48,12 +50,8 @@
     background: linear-gradient(to bottom, var(--smokeyGrey), var(--smokeyGrey));
     box-shadow: 0 0 0.5em var(--smokeyGrey), 0 0 1em var(--smokeyGrey), 0 0 1.5em var(--smokeyGrey),
         0 0 1em var(--smokeyGrey);
-    transform: scale(1.1);
+    transform: scale(1, 1.4);
     color: var(--charcoalShadeDarker2);
-}
-
-.container:hover .caret {
-    border-top-color: var(--charcoalShadeDarker2);
 }
 
 .value {
@@ -103,5 +101,5 @@
 }
 
 .container hr {
-    margin: 2px;
+    margin: 0 0 0.4em;
 }

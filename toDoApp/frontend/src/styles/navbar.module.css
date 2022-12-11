@@ -38,7 +38,7 @@
 /* Smaller devices */
 @media screen and (max-width: 992px) {
     .navbar {
-        width: 50vw;
+        width: 60vw;
         flex-direction: column;
         padding: 10px;
         font-size: 17px;
