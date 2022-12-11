@@ -38,11 +38,12 @@ public class UserServiceImpl implements UserService {
   @Override
   public User create(RegistrationDTO registration) {
     if (registration.getUsername().length() < 2) {
-      throw new PasswordException(" match.", HttpStatusCode.valueOf(400));
+      throw new UserException("The username has to contain at least two characters.",
+          HttpStatusCode.valueOf(400));
     }
 
     if (!registration.getPassword().equals(registration.getPasswordRepeat())) {
-      throw new PasswordException("The username has to contain at least two characters.",
+      throw new PasswordException("The passwords do not match.",
           HttpStatusCode.valueOf(400));
     }
 

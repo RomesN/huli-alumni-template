@@ -1,0 +1,107 @@
+.container {
+    position: relative;
+    text-transform: capitalize;
+    width: 8em;
+    display: flex;
+    border-radius: 5px;
+    outline: none;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--neonGreen);
+}
+
+/* Large devices */
+@media only screen and (min-width: 992px) {
+    .container {
+        font-size: 16px;
+    }
+}
+
+/* Smaller devices */
+@media screen and (max-width: 992px) {
+    .container {
+        font-size: 17px;
+    }
+}
+
+.value :focus {
+    border-color: var(--smokeyGrey);
+}
+
+.value::before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    transition: 0.2s;
+    border-radius: 5px;
+}
+
+.value:hover {
+    color: var(--charcoalShadeDarker2);
+}
+
+.value:hover::before {
+    background: linear-gradient(to bottom, var(--smokeyGrey), var(--smokeyGrey));
+    box-shadow: 0 0 0.5em var(--smokeyGrey), 0 0 1em var(--smokeyGrey), 0 0 1.5em var(--smokeyGrey),
+        0 0 1em var(--smokeyGrey);
+    transform: scale(1.1);
+    color: var(--charcoalShadeDarker2);
+}
+
+.container:hover .caret {
+    border-top-color: var(--charcoalShadeDarker2);
+}
+
+.value {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5em;
+}
+
+.value > svg {
+    margin-left: 0.4em;
+}
+
+.options {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    display: none;
+    overflow-y: auto;
+    border-radius: 5px;
+    width: 100%;
+    top: calc(100% + 0.23em);
+    background-color: var(--charcoalShadeDarker);
+    z-index: 5;
+}
+
+.options.show {
+    display: block;
+    text-align: center;
+}
+
+.option {
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+    color: var(--smokeyGrey);
+}
+
+.option.selected {
+    background-color: var(--smokeyGrey);
+    color: var(--charcoalShadeDarker);
+}
+
+.option.highlighted {
+    background-color: var(--charcoalShadeDarker3);
+    color: var(--neonGreen);
+}
+
+.container hr {
+    margin: 2px;
+}

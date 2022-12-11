@@ -1,7 +1,7 @@
 import { AxiosError, isAxiosError } from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoginInputs } from "../shared/types/forms";
 import { loginUser } from "../api/toDoApi";
 import styles from "../styles/loginRegister.module.css";
@@ -16,11 +16,16 @@ const Login = () => {
     } = useForm<LoginInputs>();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        localStorage.removeItem(import.meta.env.VITE_JWT_LOCALSTORAGE_NAME);
+    }, []);
+
     const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
         const response = await loginUser(data.username, data.password);
         if (isAxiosError(response)) {
             setError(response);
         } else {
+            localStorage.setItem(import.meta.env.VITE_JWT_LOCALSTORAGE_NAME, response);
             navigate("/todos");
         }
     };
