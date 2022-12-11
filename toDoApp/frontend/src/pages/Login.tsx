@@ -21,7 +21,7 @@ const Login = () => {
         if (isAxiosError(response)) {
             setError(response);
         } else {
-            navigate("/todo");
+            navigate("/todos");
         }
     };
 
@@ -34,33 +34,35 @@ const Login = () => {
     };
 
     return (
-        <div className={styles.formContainer}>
-            <h2 className={styles.header}>Login</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className={styles.inputContainer}>
-                    <input type="text" {...register("username", { required: true })} />
-                    <label className={watch("username") ? styles.usedLabel : undefined}>Username</label>
-                    {errors.username && <span className={styles.error}>the field is required</span>}
-                </div>
-                <div className={styles.inputContainer}>
-                    <input type="password" {...register("password", { required: true })} />
-                    <label className={watch("password") ? styles.usedLabel : undefined}>Password</label>
-                    {errors.password && <span className={styles.error}>the field is required</span>}
-                    {error && showError(error)}
-                </div>
-                <div className={styles.buttonContainer}>
-                    <button type="submit" value="Submit">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        Submit
-                    </button>
-                    <Link to={"/register"} className={styles.nonMainButtonLink}>
-                        <button>Register</button>
-                    </Link>
-                </div>
-            </form>
+        <div className={styles.centered}>
+            <div className={styles.formContainer}>
+                <h2 className={styles.header}>Login</h2>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className={styles.inputContainer}>
+                        <input type="text" {...register("username", { required: true })} />
+                        <label className={watch("username") ? styles.usedLabel : undefined}>Username</label>
+                        {errors.username && <span className={styles.error}>the field is required</span>}
+                    </div>
+                    <div className={styles.inputContainer}>
+                        <input type="password" {...register("password", { required: true })} />
+                        <label className={watch("password") ? styles.usedLabel : undefined}>Password</label>
+                        {errors.password && <span className={styles.error}>the field is required</span>}
+                        {error && showError(error)}
+                    </div>
+                    <div className={styles.buttonContainer}>
+                        <button type="submit" value="Submit">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            Submit
+                        </button>
+                        <Link to={"/register"} className={styles.nonMainButtonLink}>
+                            <button>Register</button>
+                        </Link>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };
