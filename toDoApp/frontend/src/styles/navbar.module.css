@@ -54,7 +54,7 @@
     }
 }
 
-/* ALL ITEMS */
+/* LIST ITEMS */
 
 .navbar .item {
     list-style: none;
@@ -66,6 +66,10 @@
 
 .navbar .green {
     color: var(--neonGreen);
+}
+
+.navbar .greenDarker {
+    color: var(--neonGreenDarker);
 }
 
 .navbar .hoverSpecialEffect {
@@ -98,6 +102,71 @@
     box-shadow: 0 0 0.5em var(--smokeyGrey), 0 0 1em var(--smokeyGrey), 0 0 1.5em var(--smokeyGrey),
         0 0 1em var(--smokeyGrey);
     transform: scale(1.2);
+}
+
+.navbar .ascSwitcherShow {
+    width: 2em;
+    text-transform: uppercase;
+    height: fit-content;
+    text-align: center;
+    overflow: hidden;
+    transition: ease-out 1.5s;
+}
+
+.navbar .ascSwitcherHide {
+    width: 0;
+    margin: 0;
+    padding: 0;
+    height: 0;
+    text-transform: uppercase;
+    overflow: hidden;
+}
+
+/* Large devices */
+@media only screen and (min-width: 992px) {
+    .navbar .ascSwitcherHide {
+        animation: hideNormal 1.5s;
+    }
+}
+
+/* Smaller devices */
+@media screen and (max-width: 992px) {
+    .navbar .ascSwitcherHide {
+        animation: hideHeight 1.5s;
+    }
+}
+
+@keyframes hideNormal {
+    0% {
+        width: 2em;
+        margin: 0 8px;
+        padding: inherit;
+        height: 100%;
+        overflow: hidden;
+    }
+    100% {
+        width: 0;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+}
+
+@keyframes hideHeight {
+    0% {
+        width: 2em;
+        margin: 0 8px;
+        padding: inherit;
+        height: 2em;
+        overflow: hidden;
+    }
+    100% {
+        width: 0;
+        margin: 0;
+        padding: 0;
+        height: 0;
+        overflow: hidden;
+    }
 }
 
 /* Search/FIlter */

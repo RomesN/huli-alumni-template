@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import SelectSort from "./SortSelect";
 import { ToDoNavigationProps } from "../shared/types/toDoPage";
 import { toDoSortEnum } from "../shared/utils/toDoSortEnum";
+import { useEffect } from "react";
 
 type OptionType = {
     value: string;
@@ -27,6 +28,18 @@ const Navbar = ({
         setSearchString(event.target.value);
     };
 
+    const handleAscDscSwithc = () => {
+        if (sortIsAsc !== null) {
+            setSortIsAsc((value) => !value);
+        }
+    };
+
+    useEffect(() => {
+        if (!sortIsAsc) {
+            setSortIsAsc(true);
+        }
+    }, [appliedSort]);
+
     return (
         <div className={styles.navbarContainer}>
             <ul className={styles.navbar}>
@@ -48,6 +61,14 @@ const Navbar = ({
                         onChange={setAppliedSort}
                         value={appliedSort}
                     />
+                </li>
+                <li
+                    className={`${styles.item} ${styles.hoverSpecialEffect} ${
+                        appliedSort ? styles.ascSwitcherShow : styles.ascSwitcherHide
+                    } ${styles.green} ${styles.greenDarker}`}
+                    onClick={() => handleAscDscSwithc()}
+                >
+                    {sortIsAsc ? "Asc" : "Dsc"}
                 </li>
                 <li
                     onClick={() => {
