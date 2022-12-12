@@ -70,18 +70,21 @@
     position: absolute;
     margin: 0;
     padding: 0;
-    display: none;
-    overflow-y: auto;
+    height: 0;
+    overflow-y: hidden;
+    text-align: center;
     border-radius: 5px;
     width: 100%;
     top: calc(100% + 0.23em);
     background-color: var(--charcoalShadeDarker);
     z-index: 5;
+    transition: height ease-in-out 0.5s;
 }
 
 .options.show {
     display: block;
     text-align: center;
+    height: 9.5em;
 }
 
 .option {

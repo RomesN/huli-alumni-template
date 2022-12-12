@@ -51,7 +51,7 @@
 @media screen and (max-width: 992px) {
     .formContainer {
         height: fit-content;
-        min-width: 90vw;
+        min-width: 85vw;
     }
 
     .inputContainer input,

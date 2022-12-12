@@ -12,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TaskDTO {
+  private Long id;
   private String name;
   private String description;
   private Boolean done = false;
@@ -19,6 +20,7 @@ public class TaskDTO {
   private Priority priority = Priority.LOW;
 
   public TaskDTO(Task task) {
+    this.id = task.getId();
     this.name = task.getName();
     this.description = task.getDescription();
     this.done = task.getDone();

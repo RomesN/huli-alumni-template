@@ -3,14 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "../styles/navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import SelectSort from "./SortSelect";
-import { ToDoNavigationProps } from "../shared/types/toDoPage";
+import { ToDoNavigationProps } from "../shared/types/toDos";
 import { toDoSortEnum } from "../shared/utils/toDoSortEnum";
 import { useEffect } from "react";
-
-type OptionType = {
-    value: string;
-    label: string;
-};
+import { useTokenContext } from "../hooks/useTokenContext";
 
 const Navbar = ({
     searchOn,
@@ -23,6 +19,7 @@ const Navbar = ({
     setSortIsAsc,
 }: ToDoNavigationProps) => {
     const navigate = useNavigate();
+    const { setAccessToken } = useTokenContext();
 
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchString(event.target.value);
@@ -41,12 +38,12 @@ const Navbar = ({
     }, [appliedSort]);
 
     return (
-        <div className={styles.navbarContainer}>
+        <>
             <ul className={styles.navbar}>
                 <li
                     className={`${styles.hoverSpecialEffect} ${styles.item} ${styles.grey}`}
                     onClick={() => {
-                        localStorage.removeItem(import.meta.env.VITE_JWT_LOCALSTORAGE_NAME);
+                        setAccessToken("");
                         navigate("/login");
                     }}
                 >
@@ -83,7 +80,7 @@ const Navbar = ({
                     <input placeholder="type here" type="text" onChange={handleInput} value={searchString}></input>
                 </li>
             </ul>
-        </div>
+        </>
     );
 };
 

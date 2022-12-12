@@ -1,0 +1,20 @@
+.toDoListContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/* Large devices */
+@media only screen and (min-width: 992px) {
+    .toDoListContainer {
+        width: 60vw;
+    }
+}
+
+/* Smaller devices */
+@media screen and (max-width: 992px) {
+    .toDoListContainer {
+        width: 80vw;
+    }
+}

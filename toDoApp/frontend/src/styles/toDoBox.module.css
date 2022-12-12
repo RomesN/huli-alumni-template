@@ -1,0 +1,111 @@
+.toDoBox {
+    border-radius: 5px;
+    background: var(--charcoalShadeDarker2);
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+    color: var(--neonGreen);
+    margin: 10px;
+    width: 300px;
+    padding: 0.5em;
+}
+
+/* Large devices */
+@media only screen and (min-width: 992px) {
+    .toDoBox {
+        font-size: 16px;
+    }
+}
+
+/* Smaller devices */
+@media screen and (max-width: 992px) {
+    .toDoBox {
+        font-size: 17px;
+    }
+}
+
+.toDoHeader {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 0.3em;
+}
+
+.nameContainer,
+.descriptionContainer {
+    display: flex;
+    justify-content: center;
+    font-family: "Montserrat", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* normal */
+
+.dueDate.normal,
+.name.normal,
+.description.normal {
+    color: var(--smokeyGrey);
+    width: fit-content;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.name.normal,
+.description.normal {
+    text-align: center;
+    margin: 0.5em 0;
+}
+
+.name.normal {
+    font-weight: bold;
+}
+
+/* done */
+
+.dueDate.done,
+.priority.done,
+.name.done,
+.description.done {
+    opacity: 0.8;
+    text-decoration: line-through;
+    color: var(--charcoal);
+}
+
+.dueDate.done,
+.name.done,
+.description.done {
+    width: fit-content;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+}
+
+.name.done,
+.description.done {
+    text-align: center;
+    margin: 0.5em 0;
+}
+
+.doneLine {
+    position: absolute;
+    width: 100%;
+    background: linear-gradient(to right, var(--charcoal), var(--charcoal) 27%, transparent 27%);
+    top: 3px;
+    height: 1px;
+    border: 0;
+}
+
+/* priority colors */
+.low,
+.dueDate.low {
+    color: var(--smokeyGrey);
+}
+
+.medium,
+.dueDate.medium {
+    color: var(--neonGreen);
+}
+
+.high,
+.dueDate.high {
+    color: var(--neonRed);
+}

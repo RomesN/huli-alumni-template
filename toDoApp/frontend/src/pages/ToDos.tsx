@@ -1,6 +1,9 @@
 import { useState } from "react";
+import ErrorBoundary from "../components/ErrorBoundary";
 import Navbar from "../components/Navbar";
-import { SelectOption } from "../shared/types/toDoPage";
+import ToDoList from "../components/ToDoList";
+import { SelectOption } from "../shared/types/others";
+import styles from "../styles/toDoPage.module.css";
 
 const ToDos = () => {
     const [searchOn, setSearchOn] = useState(false);
@@ -10,19 +13,25 @@ const ToDos = () => {
 
     return (
         <div>
-            <div>
-                <Navbar
-                    searchOn={searchOn}
-                    setSearchOn={setSearchOn}
-                    searchString={searchString}
-                    setSearchString={setSearchString}
-                    appliedSort={appliedSort}
-                    setAppliedSort={setAppliedSort}
-                    sortIsAsc={sortIsAsc}
-                    setSortIsAsc={setSortIsAsc}
-                />
+            <div className={styles.navbarContainer}>
+                <ErrorBoundary>
+                    <Navbar
+                        searchOn={searchOn}
+                        setSearchOn={setSearchOn}
+                        searchString={searchString}
+                        setSearchString={setSearchString}
+                        appliedSort={appliedSort}
+                        setAppliedSort={setAppliedSort}
+                        sortIsAsc={sortIsAsc}
+                        setSortIsAsc={setSortIsAsc}
+                    />
+                </ErrorBoundary>
             </div>
-            <div></div>
+            <div className={styles.listContainer}>
+                <ErrorBoundary>
+                    <ToDoList searchString={searchString} appliedSort={appliedSort} sortIsAsc={sortIsAsc} />
+                </ErrorBoundary>
+            </div>
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { SelectOption, SelectSortProps } from "../shared/types/toDoPage";
+import { SelectOption, SelectSortProps } from "../shared/types/others";
 import styles from "../styles/selectSort.module.css";
 
 const SelectSort = ({ value, onChange, options }: SelectSortProps) => {
