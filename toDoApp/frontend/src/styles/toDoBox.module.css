@@ -6,6 +6,7 @@
     margin: 10px;
     width: 300px;
     padding: 0.5em;
+    animation: fadeIn 1.5s;
 }
 
 /* Large devices */
@@ -108,4 +109,15 @@
 .high,
 .dueDate.high {
     color: var(--neonRed);
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: rotateX(-90deg);
+    }
+    100% {
+        opacity: 1;
+        transform: none;
+    }
 }

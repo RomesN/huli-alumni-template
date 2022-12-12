@@ -43,19 +43,21 @@ const SelectSort = ({ value, onChange, options }: SelectSortProps) => {
                 {options.map((option, index) => {
                     if (option.value === "clearAll") {
                         return (
-                            <div
-                                onClick={(event) => {
-                                    handleClear(event);
-                                }}
-                                onMouseEnter={() => setHighlightedIndex(index)}
-                                key={option.value}
-                                className={`${styles.option} ${option.value === value?.value ? styles.selected : ""} ${
-                                    index === highlightedIndex ? styles.highlighted : ""
-                                }`}
-                            >
+                            <>
+                                <div
+                                    onClick={(event) => {
+                                        handleClear(event);
+                                    }}
+                                    onMouseEnter={() => setHighlightedIndex(index)}
+                                    key={option.value}
+                                    className={`${styles.option} ${
+                                        option.value === value?.value ? styles.selected : ""
+                                    } ${index === highlightedIndex ? styles.highlighted : ""}`}
+                                >
+                                    {option.label}
+                                </div>
                                 <hr />
-                                {option.label}
-                            </div>
+                            </>
                         );
                     } else {
                         return (
