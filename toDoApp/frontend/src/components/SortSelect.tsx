@@ -1,5 +1,6 @@
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
 import { useEffect, useState } from "react";
 import { SelectOption, SelectSortProps } from "../shared/types/others";
 import styles from "../styles/selectSort.module.css";
@@ -43,13 +44,12 @@ const SelectSort = ({ value, onChange, options }: SelectSortProps) => {
                 {options.map((option, index) => {
                     if (option.value === "clearAll") {
                         return (
-                            <>
+                            <React.Fragment key={option.value}>
                                 <div
                                     onClick={(event) => {
                                         handleClear(event);
                                     }}
                                     onMouseEnter={() => setHighlightedIndex(index)}
-                                    key={option.value}
                                     className={`${styles.option} ${
                                         option.value === value?.value ? styles.selected : ""
                                     } ${index === highlightedIndex ? styles.highlighted : ""}`}
@@ -57,7 +57,7 @@ const SelectSort = ({ value, onChange, options }: SelectSortProps) => {
                                     {option.label}
                                 </div>
                                 <hr />
-                            </>
+                            </React.Fragment>
                         );
                     } else {
                         return (

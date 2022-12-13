@@ -7,6 +7,7 @@
     width: 300px;
     padding: 0.5em;
     animation: fadeIn 1.5s;
+    position: relative;
 }
 
 /* Large devices */
@@ -95,6 +96,39 @@
     border: 0;
 }
 
+/* editing */
+
+.dueDate.editMode,
+.name.editMode,
+.description.editMode {
+    color-scheme: dark;
+    background-color: transparent;
+    color: var(--smokeyGrey);
+    border: none;
+    border-bottom: 1px solid var(--neonGreen);
+}
+
+.priority.editMode {
+    background-color: var(--charcoalShadeDarker2);
+    color: var(--smokeyGrey);
+    border: none;
+    border-bottom: 1px solid var(--neonGreen);
+}
+
+.name.editMode,
+.description.editMode {
+    text-align: center;
+    margin: 0.5em 0;
+}
+
+.dueDate.editMode:focus,
+.priority.editMode:focus,
+.name.editMode:focus,
+.description.editMode:focus {
+    outline: none;
+    border-bottom: 1px solid var(--smokeyGrey);
+}
+
 /* priority colors */
 .low,
 .dueDate.low {
@@ -109,6 +143,60 @@
 .high,
 .dueDate.high {
     color: var(--neonRed);
+}
+
+/* buttons */
+
+.markDoneButton,
+.markDoneButtonShow,
+.editButton,
+.editButtonShow,
+.saveButton,
+.saveButtonShow {
+    background-color: var(--charcoalShadeDarker3);
+    position: absolute;
+    top: 90%;
+    padding: 0.2em 0.3em;
+    border: 2px solid var(--charcoalShadeDarker3);
+    border-radius: 50%;
+    animation: fadeIn 0.5s;
+}
+
+.markDoneButtonShow:hover,
+.editButtonShow:hover,
+.saveButtonShow:hover {
+    background-color: var(--smokeyGrey);
+    color: var(--charcoal);
+    border-color: var(--smokeyGrey);
+    box-shadow: 0 0 0.5em var(--smokeyGrey), 0 0 1em var(--smokeyGrey), 0 0 1.5em var(--smokeyGrey),
+        0 0 2em var(--smokeyGrey);
+    transition: ease-in-out 0.3s;
+}
+
+.markDoneButton,
+.markDoneButtonShow {
+    color: var(--neonGreen);
+    left: -3%;
+}
+
+.editButton,
+.editButtonShow,
+.saveButton,
+.saveButtonShow {
+    color: var(--smokeyGrey);
+    right: -3%;
+}
+
+.editButton,
+.markDoneButton,
+.saveButton {
+    display: none;
+}
+
+.editButtonShow,
+.markDoneButtonShow,
+.saveButtonShow {
+    display: block;
 }
 
 @keyframes fadeIn {

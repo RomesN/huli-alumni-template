@@ -4,10 +4,26 @@ import { ToDoBoxProps } from "../shared/types/toDos";
 import styles from "../styles/toDoBox.module.css";
 import { toDoPriorityEnum } from "../shared/utils/toDoPriorityEnum";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamation, faExclamationCircle, faCalendarDay, faCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+    faExclamation,
+    faExclamationCircle,
+    faCalendarDay,
+    faCheck,
+    faPen,
+    faFloppyDisk,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ToDoBox = ({ toDo }: ToDoBoxProps) => {
     const [editing, setEditing] = useState(false);
+    const [isHovering, setIsHovering] = useState(false);
+
+    const handleMouseOver = () => {
+        setIsHovering(true);
+    };
+
+    const handleMouseOut = () => {
+        setIsHovering(false);
+    };
 
     const giveClassNameExtension = useCallback((toDoDone: boolean, isEditingMode: boolean) => {
         if (isEditingMode) {
@@ -94,7 +110,7 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
     );
 
     return (
-        <div className={styles.toDoBox}>
+        <div className={styles.toDoBox} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
             <div className={styles.toDoHeader}>
                 <div className={styles.dueDateContainer}>
                     {!toDo.dueDate && !editing ? (
@@ -118,9 +134,14 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
                     {!editing ? (
                         givePriority(toDo.done, editing, toDo.priority)
                     ) : (
-                        <select className={`${styles.prority} ${giveClassNameExtension(toDo.done, editing)}}`}>
+                        <select className={`${styles.priority} ${giveClassNameExtension(toDo.done, editing)}`}>
+                            <option
+                                value={toDo.priority[0].toUpperCase() + toDo.priority.substring(1).toLocaleLowerCase()}
+                            >
+                                {toDo.priority[0].toUpperCase() + toDo.priority.substring(1).toLocaleLowerCase()}
+                            </option>
                             {Object.values(toDoPriorityEnum).map((key) => {
-                                if (key !== toDo.priority) {
+                                if (key.toLocaleLowerCase() !== toDo.priority.toLocaleLowerCase()) {
                                     return (
                                         <option
                                             key={key}
@@ -154,6 +175,27 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
                     className={`${styles.description} ${giveClassNameExtension(toDo.done, editing)}`}
                 />
             </div>
+            {!editing ? (
+                <button className={isHovering ? styles.markDoneButtonShow : styles.markDoneButton}>
+                    <FontAwesomeIcon icon={faCheck} />
+                </button>
+            ) : (
+                ""
+            )}
+            {!editing ? (
+                <button
+                    className={isHovering ? styles.editButtonShow : styles.editButton}
+                    onClick={() => {
+                        setEditing(true);
+                    }}
+                >
+                    <FontAwesomeIcon icon={faPen} />
+                </button>
+            ) : (
+                <button className={isHovering ? styles.saveButtonShow : styles.saveButton}>
+                    <FontAwesomeIcon icon={faFloppyDisk} />
+                </button>
+            )}
         </div>
     );
 };
