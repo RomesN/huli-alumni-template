@@ -30,12 +30,11 @@ public class ToDoController {
   }
 
   @PutMapping("/to-do")
-  public ResponseEntity<String> createTask(@AuthenticationPrincipal Jwt principal, @RequestBody
+  public ResponseEntity<?> createTask(@AuthenticationPrincipal Jwt principal, @RequestBody
   TaskDTO taskDTO) {
     try {
       User user = (User) userService.loadUserByUsername(principal.getClaimAsString("sub"));
-      taskService.createTask(taskDTO, user);
-      return ResponseEntity.ok("To do was saved.");
+      return ResponseEntity.ok(taskService.createTask(taskDTO, user));
 
     } catch (ToDoException e) {
       return ResponseEntity.status(e.getStatusCode())
@@ -60,7 +59,8 @@ public class ToDoController {
                                       @RequestBody TaskDTO taskDTO,
                                       @PathVariable String id) {
     try {
-      return ResponseEntity.ok(taskService.updateToDo(taskDTO, id, principal.getClaimAsString("sub")));
+      return ResponseEntity.ok(
+          taskService.updateToDo(taskDTO, id, principal.getClaimAsString("sub")));
     } catch (ToDoException e) {
       return ResponseEntity.status(e.getStatusCode())
           .body(e.getMessage());

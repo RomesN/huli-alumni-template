@@ -3,10 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "../styles/navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import SelectSort from "./SortSelect";
-import { ToDoNavigationProps } from "../shared/types/toDos";
+import { ToDo, ToDoNavigationProps } from "../shared/types/toDos";
 import { toDoSortEnum } from "../shared/utils/toDoSortEnum";
 import { useEffect } from "react";
-import { useTokenContext } from "../hooks/useTokenContext";
+import { useMutation, useQueryClient } from "react-query";
+import { createToDo } from "../api/toDoApi";
+import { getToDoObject } from "../shared/utils/helperFunctions";
 
 const Navbar = ({
     searchOn,
@@ -19,7 +21,16 @@ const Navbar = ({
     setSortIsAsc,
 }: ToDoNavigationProps) => {
     const navigate = useNavigate();
-    const { setAccessToken } = useTokenContext();
+    const queryClient = useQueryClient();
+
+    const createToDoMutation = useMutation({
+        mutationFn: createToDo,
+        onSuccess: (data: ToDo) => {
+            queryClient.setQueryData("toDos", (oldData: ToDo[] | null | undefined) =>
+                oldData ? [data, ...oldData] : []
+            );
+        },
+    });
 
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchString(event.target.value);
@@ -43,13 +54,18 @@ const Navbar = ({
                 <li
                     className={`${styles.hoverSpecialEffect} ${styles.item} ${styles.grey}`}
                     onClick={() => {
-                        setAccessToken("");
+                        localStorage.removeItem(import.meta.env.VITE_JWT_LOCALSTORAGE_NAME);
                         navigate("/login");
                     }}
                 >
                     Logout
                 </li>
-                <li className={`${styles.hoverSpecialEffect} ${styles.item} ${styles.green}`}>Add new</li>
+                <li
+                    className={`${styles.hoverSpecialEffect} ${styles.item} ${styles.green}`}
+                    onClick={() => createToDoMutation.mutate(getToDoObject(null, "", "LOW", "", "", false))}
+                >
+                    Add new
+                </li>
                 <li className={`${styles.item}`}>
                     <SelectSort
                         options={Object.entries(toDoSortEnum).map((entry) => {

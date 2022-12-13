@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { QueryClient } from "react-query";
 import { LoginResponseOk, RegisterResponseOk } from "../shared/types/responses";
 import { ToDo } from "../shared/types/toDos";
@@ -36,7 +36,9 @@ export const apiPrivate = axios.create({
 });
 
 const request = async ({ ...options }) => {
-    apiPrivate.defaults.headers.common.Authorization = `Bearer ${JSON.parse(localStorage.getItem("ToDoAppJwt") || "")}`;
+    apiPrivate.defaults.headers.common.Authorization = `Bearer ${JSON.parse(
+        localStorage.getItem(import.meta.env.VITE_JWT_LOCALSTORAGE_NAME) || ""
+    )}`;
     const onSuccess = (response: AxiosResponse) => response.data;
     return apiPrivate(options).then(onSuccess);
 };
@@ -51,6 +53,10 @@ export const updateToDo = async (toDoParam: ToDo) => {
 
 export const deleteToDo = async (toDoParam: ToDo) => {
     return request({ url: `/to-do/${toDoParam.id}`, method: "delete" });
+};
+
+export const createToDo = async (toDoParam: ToDo) => {
+    return request({ url: `/to-do`, method: "put", data: toDoParam });
 };
 
 // query client

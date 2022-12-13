@@ -4,25 +4,37 @@ import ToDoBox from "./ToDoBox";
 import { ToDo, ToDoListProps } from "../shared/types/toDos";
 import Loading from "./Loading";
 import styles from "../styles/toDoList.module.css";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { SelectOption } from "../shared/types/others";
 import { isBefore, parseISO } from "date-fns";
 import { format } from "date-fns/esm";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-import { da } from "date-fns/locale";
 
 const ToDoList = ({ searchString, appliedSort, sortIsAsc }: ToDoListProps) => {
     const navigate = useNavigate();
-    const { isLoading, isError, data, error } = useQuery<ToDo[], AxiosError<any>>(["toDos"], getToDos, {
+    const { isError, data, error } = useQuery<ToDo[], AxiosError<any>>(["toDos"], getToDos, {
         staleTime: 1000 * 60 * 40,
     });
+
+    useEffect(() => {
+        if (isError && error.response?.status === 401) {
+            navigate("/");
+        } else if (isError) {
+            throw new Error();
+        }
+    }, [isError]);
 
     const sortById = useCallback((toDoA: ToDo, toDoB: ToDo) => {
         // done todos always last
         if (!toDoA.done && toDoB.done) {
             return -1;
         } else if (toDoA.done && !toDoB.done) {
+            return 1;
+            // empty first
+        } else if (!toDoA.name && toDoB.name) {
+            return -1;
+        } else if (toDoA.name && !toDoB.name) {
             return 1;
         } else {
             return toDoA.id - toDoB.id;
@@ -119,14 +131,6 @@ const ToDoList = ({ searchString, appliedSort, sortIsAsc }: ToDoListProps) => {
         [sortById, sortByName, sortByDone, sortByDueDate, sortByPriority]
     );
 
-    if (isLoading) {
-        return <Loading />;
-    }
-
-    if (isError) {
-        return error.response?.status === 401 ? navigate("/login") : error;
-    }
-
     if (data) {
         return (
             <div className={styles.toDoListContainer}>
@@ -158,6 +162,8 @@ const ToDoList = ({ searchString, appliedSort, sortIsAsc }: ToDoListProps) => {
             </div>
         );
     }
+
+    return <Loading />;
 };
 
 export default ToDoList;

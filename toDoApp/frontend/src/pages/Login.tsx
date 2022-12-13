@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { LoginInputs } from "../shared/types/forms";
 import { loginUser } from "../api/toDoApi";
 import styles from "../styles/loginRegister.module.css";
-import { useTokenContext } from "../hooks/useTokenContext";
 
 const Login = () => {
     const [error, setError] = useState<AxiosError | null>();
@@ -16,10 +15,9 @@ const Login = () => {
         formState: { errors },
     } = useForm<LoginInputs>();
     const navigate = useNavigate();
-    const { setAccessToken } = useTokenContext();
 
     useEffect(() => {
-        setAccessToken("");
+        localStorage.removeItem(import.meta.env.VITE_JWT_LOCALSTORAGE_NAME);
     }, []);
 
     const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
@@ -27,7 +25,7 @@ const Login = () => {
         if (isAxiosError(response)) {
             setError(response);
         } else {
-            setAccessToken(`${response}`);
+            localStorage.setItem(import.meta.env.VITE_JWT_LOCALSTORAGE_NAME, `"${response}"`);
             navigate("/todos");
         }
     };

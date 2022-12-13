@@ -21,14 +21,14 @@ button {
 /* Large devices */
 @media only screen and (min-width: 992px) {
     .toDoBox {
-        font-size: 16px;
+        font-size: 13px;
     }
 }
 
 /* Smaller devices */
 @media screen and (max-width: 992px) {
     .toDoBox {
-        font-size: 17px;
+        font-size: 14px;
     }
 }
 
@@ -105,6 +105,10 @@ button {
 }
 
 /* editing */
+
+.toDoBox.editMode {
+    border: 1px solid var(--smokeyGrey);
+}
 
 .dueDate.editMode,
 .name.editMode,
