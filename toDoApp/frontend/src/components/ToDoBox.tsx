@@ -36,7 +36,7 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
 
     const deleteToDoMutation = useMutation({
         mutationFn: deleteToDo,
-        onSuccess: (data: undefined, variables: ToDo) => {
+        onSuccess: (data: string, variables: ToDo) => {
             queryClient.setQueryData("toDos", (oldData: ToDo[] | null | undefined) =>
                 oldData ? [...oldData.filter((toDo: ToDo) => toDo.id !== variables.id)] : []
             );

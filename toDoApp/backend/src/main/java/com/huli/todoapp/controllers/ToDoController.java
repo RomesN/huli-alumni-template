@@ -60,9 +60,7 @@ public class ToDoController {
                                       @RequestBody TaskDTO taskDTO,
                                       @PathVariable String id) {
     try {
-      taskService.updateToDo(taskDTO, id, principal.getClaimAsString("sub"));
-      return ResponseEntity.ok("To do with id " + id + " was updated.");
-
+      return ResponseEntity.ok(taskService.updateToDo(taskDTO, id, principal.getClaimAsString("sub")));
     } catch (ToDoException e) {
       return ResponseEntity.status(e.getStatusCode())
           .body(e.getMessage());
