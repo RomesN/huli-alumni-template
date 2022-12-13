@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { add, format, isBefore, parseISO } from "date-fns";
 import { ToDoBoxProps } from "../shared/types/toDos";
 import styles from "../styles/toDoBox.module.css";
@@ -11,11 +11,29 @@ import {
     faCheck,
     faPen,
     faFloppyDisk,
+    faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { useScrollPosition } from "../hooks/useScrollPosition";
+import { Positions } from "../shared/types/others";
 
 const ToDoBox = ({ toDo }: ToDoBoxProps) => {
     const [editing, setEditing] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
+    const [isShown, setIsShown] = useState(true);
+    const containerElement = useRef<HTMLDivElement | null>(null);
+
+    useScrollPosition(
+        ({ prevPos, currPos }: Positions) => {
+            const shouldShow = currPos.y > 50;
+            if (isShown !== shouldShow) {
+                setIsShown(shouldShow);
+            }
+        },
+        [isShown],
+        containerElement,
+        false,
+        null
+    );
 
     const handleMouseOver = () => {
         setIsHovering(true);
@@ -110,7 +128,12 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
     );
 
     return (
-        <div className={styles.toDoBox} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+        <div
+            className={isShown ? styles.toDoBox : styles.hidden}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
+            ref={containerElement}
+        >
             <div className={styles.toDoHeader}>
                 <div className={styles.dueDateContainer}>
                     {!toDo.dueDate && !editing ? (
@@ -169,7 +192,7 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
             <div className={`${styles.descriptionContainer}`}>
                 <input
                     disabled={!editing}
-                    type="description"
+                    type="textarea"
                     name="name"
                     defaultValue={toDo.description}
                     className={`${styles.description} ${giveClassNameExtension(toDo.done, editing)}`}
@@ -183,14 +206,19 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
                 ""
             )}
             {!editing ? (
-                <button
-                    className={isHovering ? styles.editButtonShow : styles.editButton}
-                    onClick={() => {
-                        setEditing(true);
-                    }}
-                >
-                    <FontAwesomeIcon icon={faPen} />
-                </button>
+                <>
+                    <button className={isHovering ? styles.deleteButtonShow : styles.deleteButton}>
+                        <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                    <button
+                        className={isHovering ? styles.editButtonShow : styles.editButton}
+                        onClick={() => {
+                            setEditing(true);
+                        }}
+                    >
+                        <FontAwesomeIcon icon={faPen} />
+                    </button>
+                </>
             ) : (
                 <button className={isHovering ? styles.saveButtonShow : styles.saveButton}>
                     <FontAwesomeIcon icon={faFloppyDisk} />

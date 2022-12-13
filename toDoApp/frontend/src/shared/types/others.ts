@@ -21,4 +21,10 @@ type SelectSortProps = {
 
 type LocalStorage<T> = [T, Dispatch<SetStateAction<T>>];
 
-export type { LocalStorage, Props, SelectOption, SelectSortProps, State };
+type Position = { x: number; y: number };
+
+type Positions = { prevPos: Position; currPos: Position };
+
+type TargetProps = { element?: React.MutableRefObject<HTMLElement | null> | null; useWindow?: boolean };
+
+export type { LocalStorage, Position, Positions, Props, SelectOption, SelectSortProps, TargetProps, State };

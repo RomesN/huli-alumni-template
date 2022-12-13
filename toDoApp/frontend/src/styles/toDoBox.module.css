@@ -6,8 +6,16 @@
     margin: 10px;
     width: 300px;
     padding: 0.5em;
-    animation: fadeIn 1.5s;
+    animation: fadeIn 0.5s ease-in;
     position: relative;
+    pointer-events: auto;
+}
+
+input,
+select,
+textarea,
+button {
+    font-family: inherit;
 }
 
 /* Large devices */
@@ -103,16 +111,19 @@
 .description.editMode {
     color-scheme: dark;
     background-color: transparent;
-    color: var(--smokeyGrey);
+    color: var(--smokeyGreyDarker);
     border: none;
-    border-bottom: 1px solid var(--neonGreen);
+}
+
+input.description.editMode {
+    width: fit-content;
+    word-wrap: hard;
 }
 
 .priority.editMode {
     background-color: var(--charcoalShadeDarker2);
-    color: var(--smokeyGrey);
+    color: var(--smokeyGreyDarker);
     border: none;
-    border-bottom: 1px solid var(--neonGreen);
 }
 
 .name.editMode,
@@ -152,7 +163,9 @@
 .editButton,
 .editButtonShow,
 .saveButton,
-.saveButtonShow {
+.saveButtonShow,
+.deleteButton,
+.deleteButtonShow {
     background-color: var(--charcoalShadeDarker3);
     position: absolute;
     top: 90%;
@@ -164,13 +177,15 @@
 
 .markDoneButtonShow:hover,
 .editButtonShow:hover,
-.saveButtonShow:hover {
+.saveButtonShow:hover,
+.deleteButtonShow:hover {
     background-color: var(--smokeyGrey);
     color: var(--charcoal);
     border-color: var(--smokeyGrey);
     box-shadow: 0 0 0.5em var(--smokeyGrey), 0 0 1em var(--smokeyGrey), 0 0 1.5em var(--smokeyGrey),
         0 0 2em var(--smokeyGrey);
-    transition: ease-in-out 0.3s;
+    transition: ease-in-out 0.4s;
+    cursor: pointer;
 }
 
 .markDoneButton,
@@ -187,9 +202,16 @@
     right: -3%;
 }
 
+.deleteButton,
+.deleteButtonShow {
+    color: var(--neonRed);
+    right: +8%;
+}
+
 .editButton,
 .markDoneButton,
-.saveButton {
+.saveButton,
+.deleteButton {
     display: none;
 }
 
@@ -202,10 +224,31 @@
 @keyframes fadeIn {
     0% {
         opacity: 0;
-        transform: rotateX(-90deg);
     }
     100% {
         opacity: 1;
-        transform: none;
+    }
+}
+
+/* hidden when behind navbar */
+.hidden {
+    border-radius: 5px;
+    background: var(--charcoalShadeDarker2);
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+    color: var(--neonGreen);
+    margin: 10px;
+    width: 300px;
+    padding: 0.5em;
+    opacity: 0;
+    pointer-events: none;
+    animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
     }
 }
