@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import { add, format, isBefore, parseISO } from "date-fns";
-import { ToDoBoxProps } from "../shared/types/toDos";
+import { ToDo, ToDoBoxProps } from "../shared/types/toDos";
 import styles from "../styles/toDoBox.module.css";
 import { toDoPriorityEnum } from "../shared/utils/toDoPriorityEnum";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,12 +15,33 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useScrollPosition } from "../hooks/useScrollPosition";
 import { Positions } from "../shared/types/others";
+import { useMutation, useQueryClient } from "react-query";
+import { deleteToDo, updateToDo } from "../api/toDoApi";
 
 const ToDoBox = ({ toDo }: ToDoBoxProps) => {
     const [editing, setEditing] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
     const [isShown, setIsShown] = useState(true);
+    const queryClient = useQueryClient();
     const containerElement = useRef<HTMLDivElement | null>(null);
+
+    const toggleDoneMutation = useMutation({
+        mutationFn: updateToDo,
+        onSuccess: (data: ToDo) => {
+            queryClient.setQueryData("toDos", (oldData: ToDo[] | null | undefined) =>
+                oldData ? [...oldData.filter((toDo: ToDo) => toDo.id !== data.id), data] : []
+            );
+        },
+    });
+
+    const deleteToDoMutation = useMutation({
+        mutationFn: deleteToDo,
+        onSuccess: (data: undefined, variables: ToDo) => {
+            queryClient.setQueryData("toDos", (oldData: ToDo[] | null | undefined) =>
+                oldData ? [...oldData.filter((toDo: ToDo) => toDo.id !== variables.id)] : []
+            );
+        },
+    });
 
     useScrollPosition(
         ({ prevPos, currPos }: Positions) => {
@@ -199,7 +220,14 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
                 />
             </div>
             {!editing ? (
-                <button className={isHovering ? styles.markDoneButtonShow : styles.markDoneButton}>
+                <button
+                    className={isHovering ? styles.markDoneButtonShow : styles.markDoneButton}
+                    onClick={() => {
+                        const toDoToUpdate = { ...toDo };
+                        toDoToUpdate.done = !toDoToUpdate.done;
+                        toggleDoneMutation.mutate(toDoToUpdate);
+                    }}
+                >
                     <FontAwesomeIcon icon={faCheck} />
                 </button>
             ) : (
@@ -207,7 +235,10 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
             )}
             {!editing ? (
                 <>
-                    <button className={isHovering ? styles.deleteButtonShow : styles.deleteButton}>
+                    <button
+                        className={isHovering ? styles.deleteButtonShow : styles.deleteButton}
+                        onClick={() => deleteToDoMutation.mutate(toDo)}
+                    >
                         <FontAwesomeIcon icon={faTrash} />
                     </button>
                     <button

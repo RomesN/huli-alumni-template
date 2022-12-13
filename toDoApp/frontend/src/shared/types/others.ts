@@ -1,4 +1,6 @@
+import { AxiosInstance } from "axios";
 import { Dispatch, ReactNode, SetStateAction } from "react";
+import { ToDo } from "./toDos";
 
 type Props = {
     children?: ReactNode;
@@ -27,4 +29,4 @@ type Positions = { prevPos: Position; currPos: Position };
 
 type TargetProps = { element?: React.MutableRefObject<HTMLElement | null> | null; useWindow?: boolean };
 
-export type { LocalStorage, Position, Positions, Props, SelectOption, SelectSortProps, TargetProps, State };
+export type { LocalStorage, Position, Positions, Props, SelectOption, SelectSortProps, State, TargetProps };

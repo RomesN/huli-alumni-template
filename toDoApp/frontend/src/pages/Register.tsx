@@ -20,7 +20,6 @@ const Regsiter = () => {
 
     const onSubmit: SubmitHandler<RegisterInputs> = async (data) => {
         const response = await registerUser(data.password, data.passwordRepeat, data.username, data.email);
-        console.log(response);
         if (isAxiosError(response)) {
             setError(response);
         } else {
@@ -30,7 +29,6 @@ const Regsiter = () => {
 
     const showError = (error: AxiosError) => {
         if (!error.response || !error.response.data) {
-            console.log(error);
             return <p className={styles.errorMessage}>{error.message}</p>;
         } else {
             return <p className={styles.errorMessage}>{error.response.data as string}</p>;

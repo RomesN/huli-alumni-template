@@ -3,17 +3,19 @@ import { getToDos } from "../api/toDoApi";
 import ToDoBox from "./ToDoBox";
 import { ToDo, ToDoListProps } from "../shared/types/toDos";
 import Loading from "./Loading";
-import usePrivateApi from "../hooks/usePrivateApi";
 import styles from "../styles/toDoList.module.css";
 import { useCallback } from "react";
 import { SelectOption } from "../shared/types/others";
 import { isBefore, parseISO } from "date-fns";
 import { format } from "date-fns/esm";
+import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
+import { da } from "date-fns/locale";
 
 const ToDoList = ({ searchString, appliedSort, sortIsAsc }: ToDoListProps) => {
-    const privateApi = usePrivateApi();
-    const toDos = useQuery(["toDos", [privateApi]], getToDos, {
-        useErrorBoundary: true,
+    const navigate = useNavigate();
+    const { isLoading, isError, data, error } = useQuery<ToDo[], AxiosError<any>>(["toDos"], getToDos, {
+        staleTime: 1000 * 60 * 40,
     });
 
     const sortById = useCallback((toDoA: ToDo, toDoB: ToDo) => {
@@ -117,10 +119,18 @@ const ToDoList = ({ searchString, appliedSort, sortIsAsc }: ToDoListProps) => {
         [sortById, sortByName, sortByDone, sortByDueDate, sortByPriority]
     );
 
-    if (toDos.data) {
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (isError) {
+        return error.response?.status === 401 ? navigate("/login") : error;
+    }
+
+    if (data) {
         return (
             <div className={styles.toDoListContainer}>
-                {toDos.data.data
+                {data
                     .filter((toDo) => {
                         const dateAsDate = parseISO(toDo.dueDate);
                         if (!searchString) {
@@ -148,8 +158,6 @@ const ToDoList = ({ searchString, appliedSort, sortIsAsc }: ToDoListProps) => {
             </div>
         );
     }
-
-    return <Loading />;
 };
 
 export default ToDoList;
