@@ -1,6 +1,6 @@
 # Roman Nemeth
 
-Welcome to my page, my name is Roman and I'm a fresh alumni of Green Fox Academy. I'm specializing in full-stack and this is my progression in our after-course Huli program, where I'm sharpening my skills to become an even better candidate.
+Welcome to my page, my name is Roman and I'm a alumni of Green Fox Academy. I'm specializing in full-stack and this is my progression in our after-course Huli program, where I'm sharpening my skills to become an even better candidate.
 
 ## Hire me
 
