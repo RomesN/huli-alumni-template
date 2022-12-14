@@ -32,11 +32,17 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   public Task createTask(TaskDTO taskDTO, User user) {
+    if (taskDTO.getDescription().length() > 50) {
+      throw new TaskException("Description cannot contain more than 32 characters", HttpStatusCode.valueOf(400));
+    }
     return taskRepository.save(new Task(taskDTO, user));
   }
 
   @Override
   public Task updateToDo(TaskDTO taskDTO, String taskId, String username) {
+    if (taskDTO.getDescription().length() > 50) {
+      throw new TaskException("Description cannot contain more than 32 characters", HttpStatusCode.valueOf(400));
+    }
     Optional<Task> taskToUpdate = taskRepository.findTaskById(parseId(taskId));
     if (taskToUpdate.isEmpty() || !taskToUpdate.get().getUser().getUsername().equals(username)) {
       throw new TaskException("Wrong id.", HttpStatusCode.valueOf(404));

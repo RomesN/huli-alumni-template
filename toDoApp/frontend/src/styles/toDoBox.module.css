@@ -61,8 +61,14 @@ button {
 
 .name.normal,
 .description.normal {
+    width: 100%;
     text-align: center;
     margin: 0.5em 0;
+}
+
+.name.normal::placeholder,
+.description.normal::placeholder {
+    color: var(--charcoalShadeDarker2);
 }
 
 .name.normal {
@@ -78,6 +84,7 @@ button {
     opacity: 0.8;
     text-decoration: line-through;
     color: var(--charcoal);
+    margin: 0;
 }
 
 .dueDate.done,
@@ -134,6 +141,11 @@ input.description.editMode {
 .description.editMode {
     text-align: center;
     margin: 0.5em 0;
+}
+
+input.name.editMode,
+input.description.editMode {
+    width: 100%;
 }
 
 .dueDate.editMode:focus,
@@ -255,4 +267,67 @@ input.description.editMode {
     100% {
         opacity: 0;
     }
+}
+
+/* delete popup */
+.popup {
+    background-color: var(--charcoalShadeDarker2);
+    font-family: "Montserrat", Tahoma, Geneva, Verdana, sans-serif;
+    padding: 2em;
+}
+
+.popupTitle {
+    color: var(--neonGreen);
+    margin: 0 0 0 0 !important;
+    padding: 1em 0 1em 0;
+}
+
+.actionsContainerPopup {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.deleteButtonPopup {
+    background-color: var(--neonRed) !important;
+    color: var(--charcoal);
+    border-radius: 0 !important ;
+    margin: 0 1em 0 0 !important;
+}
+
+.deleteButtonPopup:focus {
+    box-shadow: 0 0 5px 3px var(--smokeyGrey) !important;
+}
+
+.deleteButtonPopup:hover,
+.noThreatButtonPopup:hover {
+    background: linear-gradient(to bottom, var(--smokeyGrey), var(--smokeyGrey)) !important;
+    box-shadow: 0 0 0.5em var(--smokeyGrey), 0 0 1em var(--smokeyGrey), 0 0 1.5em var(--smokeyGrey),
+        0 0 1em var(--smokeyGrey) !important;
+    transform: scale(1.2) !important;
+    background-color: var(--smokeyGrey) !important;
+    color: var(--charcoal) !important;
+    border: 1px solid var(--smokeyGrey) !important;
+}
+
+.noThreatButtonPopup {
+    background-color: var(--charcoalShadeDarker3) !important;
+    color: var(--smokeyGrey) !important;
+    border: 1px solid var(--smokeyGrey) !important;
+    border-radius: 0 !important ;
+    margin: 0 0 0 1em !important;
+}
+
+.noThreatButtonPopup:focus {
+    box-shadow: 0 0 5px 3px var(--smokeyGrey) !important;
+}
+
+.infoIconPopup {
+    border-color: var(--smokeyGrey) !important;
+    color: var(--smokeyGrey) !important;
+}
+
+.successIconPopup {
+    border-color: var(--neonGreen) !important;
+    color: var(--neonGreen) !important;
 }

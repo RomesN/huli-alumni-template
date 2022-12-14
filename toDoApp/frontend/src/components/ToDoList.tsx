@@ -6,7 +6,7 @@ import Loading from "./Loading";
 import styles from "../styles/toDoList.module.css";
 import { useCallback, useEffect } from "react";
 import { SelectOption } from "../shared/types/others";
-import { isBefore, parseISO } from "date-fns";
+import { add, isBefore, parseISO } from "date-fns";
 import { format } from "date-fns/esm";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
@@ -73,15 +73,16 @@ const ToDoList = ({ searchString, appliedSort, sortIsAsc }: ToDoListProps) => {
                 return 1;
             } else {
                 const result = sortIsAsc ? -1 : 1;
-                const dateA = parseISO(toDoA.dueDate);
-                const dateB = parseISO(toDoB.dueDate);
+                const dateA =
+                    parseISO(toDoA.dueDate).toString() !== "Invalid Date"
+                        ? parseISO(toDoA.dueDate)
+                        : add(new Date(), { days: 365 * 1000 });
+                const dateB =
+                    parseISO(toDoB.dueDate).toString() !== "Invalid Date"
+                        ? parseISO(toDoB.dueDate)
+                        : add(new Date(), { days: 365 * 1000 });
 
-                return isBefore(
-                    new Date(dateA.getFullYear(), dateA.getMonth(), dateA.getDay()),
-                    new Date(dateB.getFullYear(), dateB.getMonth(), dateB.getDay())
-                )
-                    ? result
-                    : -1 * result;
+                return isBefore(dateA, dateB) ? result : -1 * result;
             }
         },
         [sortIsAsc]
@@ -137,21 +138,22 @@ const ToDoList = ({ searchString, appliedSort, sortIsAsc }: ToDoListProps) => {
                 {data
                     .filter((toDo) => {
                         const dateAsDate = parseISO(toDo.dueDate);
-                        if (!searchString) {
-                            return true;
-                        } else if (
-                            //filtering all fields
+                        if (
+                            !searchString ||
                             toDo.description.toLocaleLowerCase().includes(searchString.toLocaleLowerCase()) ||
                             toDo.name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase()) ||
                             toDo.priority.toLocaleLowerCase().includes(searchString) ||
                             (toDo.done && searchString.toLocaleLowerCase() === "$done") ||
                             (toDo.done && searchString.toLocaleLowerCase() === "$opened") ||
-                            dateAsDate.getFullYear().toString().includes(searchString.toLocaleLowerCase()) ||
-                            (dateAsDate.getMonth() + 1).toString().includes(searchString.toLocaleLowerCase()) ||
-                            dateAsDate.getDate().toString().includes(searchString.toLocaleLowerCase()) ||
-                            format(dateAsDate, "dd.MM.yyyy").includes(searchString.toLocaleLowerCase())
+                            (dateAsDate.toString() !== "Invalid Date" &&
+                                (dateAsDate.getFullYear().toString().includes(searchString.toLocaleLowerCase()) ||
+                                    (dateAsDate.getMonth() + 1).toString().includes(searchString.toLocaleLowerCase()) ||
+                                    dateAsDate.getDate().toString().includes(searchString.toLocaleLowerCase()) ||
+                                    format(dateAsDate, "dd.MM.yyyy").includes(searchString.toLocaleLowerCase())))
                         ) {
                             return true;
+                        } else {
+                            return false;
                         }
                     })
 

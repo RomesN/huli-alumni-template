@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
 import { add, format, isBefore, parseISO } from "date-fns";
-import { ToDo, ToDoBoxProps } from "../shared/types/toDos";
-import styles from "../styles/toDoBox.module.css";
-import { toDoPriorityEnum } from "../shared/utils/toDoPriorityEnum";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faExclamation,
@@ -13,9 +13,11 @@ import {
     faFloppyDisk,
     faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { ToDo, ToDoBoxProps } from "../shared/types/toDos";
+import styles from "../styles/toDoBox.module.css";
+import { toDoPriorityEnum } from "../shared/utils/toDoPriorityEnum";
 import { useScrollPosition } from "../hooks/useScrollPosition";
 import { Positions } from "../shared/types/others";
-import { useMutation, useQueryClient } from "react-query";
 import { deleteToDo, updateToDo } from "../api/toDoApi";
 import { getToDoObject } from "../shared/utils/helperFunctions";
 
@@ -31,6 +33,7 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
     const [done, setDone] = useState(false);
     const queryClient = useQueryClient();
     const containerElement = useRef<HTMLDivElement | null>(null);
+    const MySwal = withReactContent(Swal);
 
     useEffect(() => {
         setId(toDo.id);
@@ -61,6 +64,47 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
             );
         },
     });
+
+    const handleDeleteClick = (toDoParam: ToDo) => {
+        MySwal.fire({
+            title: "Please, confirm delete.",
+            showDenyButton: true,
+            confirmButtonText: "Delete",
+            denyButtonText: `Don't delete`,
+            customClass: {
+                popup: styles.popup,
+                title: styles.popupTitle,
+                confirmButton: styles.deleteButtonPopup,
+                denyButton: styles.noThreatButtonPopup,
+                actions: styles.actionsContainerPopup,
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteToDoMutation.mutate(toDoParam);
+                MySwal.fire({
+                    title: "Todo was deleted.",
+                    icon: "success",
+                    customClass: {
+                        popup: styles.popup,
+                        title: styles.popupTitle,
+                        confirmButton: styles.noThreatButtonPopup,
+                        icon: styles.successIconPopup,
+                    },
+                });
+            } else if (result.isDenied) {
+                MySwal.fire({
+                    title: "Todo was not deleted.",
+                    icon: "info",
+                    customClass: {
+                        popup: styles.popup,
+                        title: styles.popupTitle,
+                        confirmButton: styles.noThreatButtonPopup,
+                        icon: styles.infoIconPopup,
+                    },
+                });
+            }
+        });
+    };
 
     useScrollPosition(
         ({ prevPos, currPos }: Positions) => {
@@ -240,7 +284,7 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
                         </select>
                     )}
                 </div>
-                {done && !isEditing ? <hr className={styles.doneLine}></hr> : ""}
+                {done && !isEditing && dueDate ? <hr className={styles.doneLine}></hr> : ""}
             </div>
             <div className={`${styles.nameContainer}`}>
                 <input
@@ -251,17 +295,19 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
                     className={`${styles.name} ${giveClassNameExtension(done, isEditing)}`}
                     onChange={handleChange}
                     placeholder="name"
+                    maxLength={32}
                 />
             </div>
             <div className={`${styles.descriptionContainer}`}>
                 <input
                     disabled={!isEditing}
-                    type="textarea"
+                    type="text"
                     name="description"
                     value={description}
                     className={`${styles.description} ${giveClassNameExtension(done, isEditing)}`}
                     onChange={handleChange}
                     placeholder="description"
+                    maxLength={32}
                 />
             </div>
             {!isEditing ? (
@@ -286,8 +332,7 @@ const ToDoBox = ({ toDo }: ToDoBoxProps) => {
                     <button
                         className={isHovering ? styles.deleteButtonShow : styles.deleteButton}
                         onClick={() => {
-                            const toDoToUpdate = { id, dueDate, priority, name, description, done } as ToDo;
-                            deleteToDoMutation.mutate(toDoToUpdate);
+                            handleDeleteClick({ id, dueDate, priority, name, description, done } as ToDo);
                         }}
                     >
                         <FontAwesomeIcon icon={faTrash} />
