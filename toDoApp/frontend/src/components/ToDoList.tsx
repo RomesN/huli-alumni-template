@@ -4,8 +4,7 @@ import ToDoBox from "./ToDoBox";
 import { ToDo, ToDoListProps } from "../shared/types/toDos";
 import Loading from "./Loading";
 import styles from "../styles/toDoList.module.css";
-import { useCallback, useEffect } from "react";
-import { SelectOption } from "../shared/types/others";
+import { useCallback, useEffect, useMemo } from "react";
 import { add, isBefore, parseISO } from "date-fns";
 import { format } from "date-fns/esm";
 import { AxiosError } from "axios";
@@ -114,23 +113,20 @@ const ToDoList = ({ searchString, appliedSort, sortIsAsc }: ToDoListProps) => {
         [sortIsAsc]
     );
 
-    const getSortFunction = useCallback(
-        (appliedSortSelect: SelectOption | null) => {
-            switch (appliedSortSelect?.value.toLocaleLowerCase()) {
-                case "name":
-                    return sortByName;
-                case "done":
-                    return sortByDone;
-                case "duedate":
-                    return sortByDueDate;
-                case "priority":
-                    return sortByPriority;
-                default:
-                    return sortById;
-            }
-        },
-        [sortById, sortByName, sortByDone, sortByDueDate, sortByPriority]
-    );
+    const sortFunction = useMemo(() => {
+        switch (appliedSort?.value.toLocaleLowerCase()) {
+            case "name":
+                return sortByName;
+            case "done":
+                return sortByDone;
+            case "duedate":
+                return sortByDueDate;
+            case "priority":
+                return sortByPriority;
+            default:
+                return sortById;
+        }
+    }, [appliedSort, sortById, sortByName, sortByDone, sortByDueDate, sortByPriority]);
 
     if (data) {
         return (
@@ -157,7 +153,7 @@ const ToDoList = ({ searchString, appliedSort, sortIsAsc }: ToDoListProps) => {
                         }
                     })
 
-                    .sort(getSortFunction(appliedSort))
+                    .sort(sortFunction)
                     .map((toDoToShow) => (
                         <ToDoBox key={toDoToShow.id} toDo={toDoToShow} />
                     ))}
