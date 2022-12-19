@@ -1,14 +1,13 @@
+import { AxiosError } from "axios";
+import { add, format, isBefore, parseISO } from "date-fns";
+import { useCallback, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getToDos } from "../api/toDoApi";
 import ToDoBox from "./ToDoBox";
 import { ToDo, ToDoListProps } from "../shared/types/toDos";
 import Loading from "./Loading";
 import styles from "../styles/toDoList.module.css";
-import { useCallback, useEffect, useMemo } from "react";
-import { add, isBefore, parseISO } from "date-fns";
-import { format } from "date-fns/esm";
-import { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
 
 const ToDoList = ({ searchString, appliedSort, sortIsAsc }: ToDoListProps) => {
     const navigate = useNavigate();

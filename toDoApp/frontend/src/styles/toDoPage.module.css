@@ -3,7 +3,6 @@
     top: 0;
     display: flex;
     justify-content: center;
-    animation: fadeIn 1s;
     z-index: 2;
 }
 
@@ -11,6 +10,5 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    animation: fadeIn 1s;
     padding: 0 0 10px;
 }
